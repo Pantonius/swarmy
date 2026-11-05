@@ -8,7 +8,7 @@ import yaml
 from swarmy.experiment import Experiment
 
 # Import your implementation of the controller, sensor, environment and agent
-from controller.my_controller import MyController
+from controller.avoiding_controller import AvoidingController
 from sensors.bumper_sensor import BumperSensor
 from environment.my_environment import MyEnvironment
 from agent.my_agent import MyAgent
@@ -18,7 +18,7 @@ with open('config.yaml', 'r') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
 
 # add your controller, if you have more than one controller, add them to the list and set the share of robots for each controller with controller_ratios in the config.yaml file
-controllers = [MyController]
+controllers = [AvoidingController]
 # add your sensors, if you have more than one sensor, add them to the list, all sensors are added to each robot
 sensors = [BumperSensor]
 

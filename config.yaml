@@ -9,7 +9,7 @@ world_height: 500
 background_color: !!python/tuple [255, 255, 255]
 
 ## Robot parameters
-number_of_agents: 500
+number_of_agents: 100
 default_velocity: 2.5
 default_angular_velocity: 2
 save_trajectory: 1
