@@ -11,15 +11,43 @@ class MyAgent(Agent):
 
     def initial_position(self):
         """
-        Define the initial position of the agent.
-        Hint:
-        Use self.set_position(x, y, heading) to set the position of the agent.
+        Choose a random spawn that does not overlap a wall, obstacle, or
+        previously placed agent.
         """
-        margin = 30  # keep the robot away from the walls
-        x = random.randint(margin, self.config['world_width'] - margin)
-        y = random.randint(margin, self.config['world_height'] - margin)
-        heading = random.randint(0, 359)
-        self.set_position(x, y, heading)
+        # Match the 30x30 agent bounds used by Experiment for collision checks.
+        half_size = 15
+        world_width = self.config['world_width']
+        world_height = self.config['world_height']
+        static_rectangles = [item[1] for item in self.environment.get_static_rectangle_list()]
+        placed_agents = getattr(self.environment, 'agent_list', [])
+
+        # Fail clearly if the arena is too crowded instead of retrying forever.
+        for _ in range(10000):
+            x = random.randint(half_size, world_width - half_size)
+            y = random.randint(half_size, world_height - half_size)
+            candidate = pygame.Rect(x - half_size, y - half_size, 2 * half_size, 2 * half_size)
+
+            overlaps_wall_or_obstacle = any(candidate.colliderect(rect) for rect in static_rectangles)
+            overlaps_agent = any(
+                candidate.colliderect(
+                    pygame.Rect(
+                        int(agent.actuation.position[0] - half_size),
+                        int(agent.actuation.position[1] - half_size),
+                        2 * half_size,
+                        2 * half_size,
+                    )
+                )
+                for agent in placed_agents
+            )
+
+            if not overlaps_wall_or_obstacle and not overlaps_agent:
+                self.set_position(x, y, random.randint(0, 359))
+                return
+
+        raise RuntimeError(
+            'Could not find a free spawn position after 10000 attempts. '
+            'Reduce the number of agents or obstacles, or increase the arena size.'
+        )
 
     def save_information(self, save_image):
         """

@@ -16,10 +16,13 @@ class MyEnvironment(Environment):
         Example:
             self.static_rectangle_list.append([color, pygame.Rect(x, y, width, height), border_width])
         """
-        self.static_rectangle_list.append(['BLACK', pygame.Rect(5, 5, self.config['world_width'] - 10, 5), 5])
-        self.static_rectangle_list.append(['BLACK', pygame.Rect(5, 5, 5, self.config['world_height'] - 10), 5])
-        self.static_rectangle_list.append(['BLACK', pygame.Rect(5, self.config['world_height'] - 10, self.config['world_width'] - 10, 5), 5])
-        self.static_rectangle_list.append(['BLACK', pygame.Rect(self.config['world_width'] - 10, 5, 5, self.config['world_height'] - 10), 5])
+        #self.static_rectangle_list.append(['BLACK', pygame.Rect(5, 5, self.config['world_width'] - 10, 5), 5])
+        #self.static_rectangle_list.append(['BLACK', pygame.Rect(5, 5, 5, self.config['world_height'] - 10), 5])
+        #self.static_rectangle_list.append(['BLACK', pygame.Rect(5, self.config['world_height'] - 10, self.config['world_width'] - 10, 5), 5])
+        #self.static_rectangle_list.append(['BLACK', pygame.Rect(self.config['world_width'] - 10, 5, 5, self.config['world_height'] - 10), 5])
+      
+        self.static_rectangle_list.append([(80, 80, 80), pygame.Rect(150, 150, 80, 20), 0])
+        self.static_rectangle_list.append([(80, 80, 80), pygame.Rect(300, 280, 20, 100), 0])
 
     def add_static_circle_object(self):
         """

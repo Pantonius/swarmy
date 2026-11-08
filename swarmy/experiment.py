@@ -67,6 +67,8 @@ class Experiment():
         # instantiate agents, controllers are assigned according to controller_ratios in config.yaml
         controller_ratios = self.config['controller_ratios']
         agent_list = []
+        # Expose agents already placed so each new agent can avoid spawning on them.
+        environment.agent_list = agent_list
         agent_counter = 0
         while agent_counter < self.config['number_of_agents']:
             share = agent_counter / self.config['number_of_agents']
@@ -74,11 +76,10 @@ class Experiment():
             while controller_index < len(controller_ratios) - 1 and share >= sum(controller_ratios[:controller_index + 1]):
                 controller_index += 1
             new_agent = self.agent(environment, self.controllers[controller_index], self.sensors, self.config)
-            new_agent.initial_position()
             new_agent.unique_id = agent_counter
+            new_agent.initial_position()
             agent_list.append(new_agent)
             agent_counter += 1
-        environment.agent_list = agent_list
 
         # -----------------------------------------------------------------------------
         # initializations

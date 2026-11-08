@@ -26,9 +26,11 @@ class AvoidingController(Actuation):
         sensor = self.agent.get_perception()
         if sensor[1] == 1:
             self.step_forward(0)  # stop
-            self.turn_right(8)  # turn right or left with random angular velocity
+            self.turn_right(random.randint(45, 135))  # turn right or left with random angular velocity
         else:
-            self.step_forward(1)  # move forward
+            self.step_forward(1)
+            if random.random() < 0.1:  # 10% chance each timestep
+                self.turn_left(random.randint(1, 10))
 
     def torus(self):
         """
